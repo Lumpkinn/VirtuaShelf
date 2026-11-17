@@ -1,7 +1,7 @@
 #This is done for now. I need to work on the rest of the file opener classes, make instances of them, and call them in the openfile method. (Realistically, I'll need to make my own file viewer, which will be doen by having the fileopeners return all the data as text. The text will then be displayed with the custom file viewer)
 import customtkinter as ctk
 import os, random
-
+import TXTReader, PDFReader, HTMLReader, EPUBReader
 
 # Colors for later use
 bookcolor = ["red", "blue", "green","yellow","orange","violet","dark green","dark blue","dark red","maroon","light grey","light blue","pink"]
@@ -11,10 +11,14 @@ title = []
 type = []
 #get the path to the data file
 data = os.listdir()
-
 SelectedFile = ""
 
+#Instances of each file opener for the openfile method
 
+TXT_reader = TXTReader() 
+PDF_reader = PDFReader()
+HTML_reader = HTMLReader()
+EPUB_reader = EPUBReader()
 
 #Method to make popup windows.
 def popup(PopupText, PopUpTitle):
@@ -40,7 +44,21 @@ for i in range():
 class Shelf (ctk.CTK):
 
      def openfile(filename, filetype):
-          SelectedFile = filename+'.'+filetype
+          #TODO: make the data returned from the instance get stored into a file, and then use the data to open the text viewer. 
+          #ADD THE REST OF THE PATH STUFF!!!! IT WON'T KNOW OTHERWISE!!!
+          SelectedFile = (filename + '.' + filetype)
+          toDisplay = ""
+          if filetype == "txt":
+               toDisplay = TXT_reader.fileOpen(SelectedFile)
+          elif filetype == "html":
+               toDisplay = HTML_reader.text()
+          elif filetype == "epub":
+               pass
+          else:
+               PDF_reader.get_data(SelectedFile)
+               pass
+
+
 
 
 

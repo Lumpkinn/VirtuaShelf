@@ -3,7 +3,7 @@
 class txtReader():
      info = ""
      
-     def __init__(self, path):
+     def __init__(self):
           pass
      
      def fileOpen(self, path):

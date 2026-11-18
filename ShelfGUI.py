@@ -16,10 +16,10 @@ SelectedFile = ""
 
 #Instances of each file opener for the openfile method
 
-TXT_reader = TXTReader() 
-PDF_reader = PDFReader()
-HTML_reader = HTMLReader()
-EPUB_reader = EPUBReader()
+TXT_reader = TXTReader.txtReader() 
+PDF_reader = PDFReader.pdfread()
+HTML_reader = HTMLReader.htmlinfo()
+EPUB_reader = EPUBReader.reader()
 
 #Method to make popup windows.
 def popup(PopupText, PopUpTitle):
@@ -29,7 +29,7 @@ def popup(PopupText, PopUpTitle):
      label = ctk.CTkLabel(popupwindow, text=PopupText, fg_color="brown", corner_radius=8, border_color="dark brown")
 
 #Checks all the files in the directory, and lets the user know if any of them are not supported.
-for i in range():
+for i in range(0, len(os.listdir("Data"))):
      info = data[i].split('.')
      #make sure to check if this will immediately close out of the program
      if not(title[1].equals("pdf")) or not (title[1].equals("txt")) or not(title[1].equals("epub")) or not (title[1].equals("html")):
@@ -42,7 +42,7 @@ for i in range():
 
 
 #What I need to do here is just set up a ctk window, make a stored array of the books (Persistent storage), and have them return the info
-class Shelf (ctk.CTK):
+class Shelf (ctk.CTk):
 
      def openfile(filename, filetype):
           #TODO: make the data returned from the instance get stored into a file, and then use the data to open the text viewer. 
@@ -84,6 +84,7 @@ class Shelf (ctk.CTK):
                #get the filename to get split with /n to make the titles vertical 
                button = ctk.CTkButton(self, text=title[i], command=self.openfile(title[i],type[i]), bg_color=random.choice(bookcolor))
                buttonarr.append(button)
+     
           self.mainloop()
           
      

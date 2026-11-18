@@ -6,16 +6,16 @@
      # got text from file.
 
 #As of Version 0.0.9, this program will only support embedded images, and hyperlinks in html files. 
-from PIL import image
+from PIL import Image
 from bs4 import BeautifulSoup
 
 class htmlinfo():
      
      #This just gets all of the text
-     def __init__(self, path):
-          with open(path) as html_doc:
-               soup = BeautifulSoup(html_doc, 'html.parser')     
+     def __init__(self, ):
           pass
      def text(self, path):
+          with open(path) as html_doc:
+               soup = BeautifulSoup(html_doc, 'html.parser')               
           return self.soup.get_text(path)
           

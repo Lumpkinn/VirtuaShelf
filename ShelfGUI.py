@@ -1,6 +1,7 @@
 #This is done for now. I need to work on the rest of the file opener classes, make instances of them, and call them in the openfile method. (Realistically, I'll need to make my own file viewer, which will be doen by having the fileopeners return all the data as text. The text will then be displayed with the custom file viewer)
 import customtkinter as ctk
 import os, random
+from pathlib import Path
 import TXTReader, PDFReader, HTMLReader, EPUBReader
 
 # Colors for later use
@@ -46,20 +47,27 @@ class Shelf (ctk.CTK):
      def openfile(filename, filetype):
           #TODO: make the data returned from the instance get stored into a file, and then use the data to open the text viewer. 
           #ADD THE REST OF THE PATH STUFF!!!! IT WON'T KNOW OTHERWISE!!!
-          SelectedFile = (filename + '.' + filetype)
+          SelectedFile = Path("VirtuaShelf/Data/" + filename + '.' + filetype)
           toDisplay = ""
           if filetype == "txt":
                toDisplay = TXT_reader.fileOpen(SelectedFile)
           elif filetype == "html":
-               toDisplay = HTML_reader.text()
+               toDisplay = HTML_reader.text(SelectedFile)
           elif filetype == "epub":
-               pass
+               toDisplay = EPUB_reader.read(SelectedFile) 
           else:
                PDF_reader.get_data(SelectedFile)
-               pass
+               toDisplay = PDF_reader.getdata(SelectedFile)
 
 
 
+     def digireader(title, text):
+          readerframe = ctk.CTk()
+          readerframe.title(title)
+          readerframe.geometry(1000,1000)
+          frame = ctk.CTkFrame(readerframe, 950, 950)
+          label = ctk.CTkLabel(frame,text=text)
+          readerframe.mainloop()
 
 
      def __init__(self):
@@ -76,5 +84,6 @@ class Shelf (ctk.CTK):
                #get the filename to get split with /n to make the titles vertical 
                button = ctk.CTkButton(self, text=title[i], command=self.openfile(title[i],type[i]), bg_color=random.choice(bookcolor))
                buttonarr.append(button)
+          self.mainloop()
           
      

@@ -17,5 +17,5 @@ class htmlinfo():
                soup = BeautifulSoup(html_doc, 'html.parser')     
           pass
      def text(self, path):
-          return self.soup.get_text()
+          return self.soup.get_text(path)
           

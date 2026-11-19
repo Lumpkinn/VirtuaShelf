@@ -11,7 +11,7 @@ bookcolor = ["red", "blue", "green","yellow","orange","violet","dark green","dar
 title = []
 type = []
 #get the path to the data file
-data = os.listdir()
+data = os.listdir("Data")
 SelectedFile = ""
 
 #Instances of each file opener for the openfile method
@@ -23,31 +23,52 @@ EPUB_reader = EPUBReader.reader()
 
 #Method to make popup windows.
 def popup(PopupText, PopUpTitle):
-     popupwindow = ctk.CTK()
+     popupwindow = ctk.CTk()
      popupwindow.geometry("200x100")
      popupwindow.title(PopUpTitle)
      label = ctk.CTkLabel(popupwindow, text=PopupText, fg_color="brown", corner_radius=8, border_color="dark brown")
+     popupwindow.mainloop()
 
 #Checks all the files in the directory, and lets the user know if any of them are not supported.
+
+#Long and short of the issue is basically just the fact that we're in the WRONG DIRECTORY!!!!!! title is also just not getting copied to it sooo
 for i in range(0, len(os.listdir("Data"))):
      info = data[i].split('.')
-     #make sure to check if this will immediately close out of the program
-     if not(title[1].equals("pdf")) or not (title[1].equals("txt")) or not(title[1].equals("epub")) or not (title[1].equals("html")):
-          popup("File type not supported","The data folder contains an unsupported file type. The folder must only contain either html, epub, txt, or pdf files. If you continue to see this message after clearing out the folder of any unwanted files, check for hidden files, and if the issue persists, create an issue on the github page.")
-          os.quit()
-     else:
-          title.append(info[0])
-          type.append(info[1])
 
+     #Splitting the info into two arrays!
+     for i in range(0, len(info)):
+          if i % 2 == 0:
+               title.append(info[i])
+          elif i % 2 == 1:
+               type.append(info[i])
+
+     #make sure to check if this will immediately close out of the program
+     #WHAT IS THE IF STATEMENT DOING???????
+     match type[0]:
+          case 'pdf':
+               print("yay")
+               break
+          case 'txt':
+               break
+          case 'html':
+               break
+          case 'epub':
+               break
+          case _:
+               print("bad eval")
+               popup("File type not supported!" , "The data folder contains an unsupported file type. The folder must only contain either html, epub, txt, or pdf files. If you continue to see this message after clearing out the folder of any unwanted files, check for hidden files, and if the issue persists, create an issue on the github page.")
+               quit()
+          
 
 
 #What I need to do here is just set up a ctk window, make a stored array of the books (Persistent storage), and have them return the info
-class Shelf (ctk.CTk):
+class bookShelf (ctk.CTk):
 
-     def openfile(filename, filetype):
+     def openfile(filename:str, filetype:str):
           #TODO: make the data returned from the instance get stored into a file, and then use the data to open the text viewer. 
           #ADD THE REST OF THE PATH STUFF!!!! IT WON'T KNOW OTHERWISE!!!
-          SelectedFile = Path("VirtuaShelf/Data/" + filename + '.' + filetype)
+          path =("Data")
+          SelectedFile = Path(path)
           toDisplay = ""
           if filetype == "txt":
                toDisplay = TXT_reader.fileOpen(SelectedFile)
@@ -56,7 +77,6 @@ class Shelf (ctk.CTk):
           elif filetype == "epub":
                toDisplay = EPUB_reader.read(SelectedFile) 
           else:
-               PDF_reader.get_data(SelectedFile)
                toDisplay = PDF_reader.getdata(SelectedFile)
 
 
@@ -73,18 +93,19 @@ class Shelf (ctk.CTk):
      def __init__(self):
           super().__init__()
           #sets the size of the window! (Tweak this later!)
-          self.configure.set_widget_scaling(5.0)
+          #self.configure.set_widget_scaling(5.0)
           self.resizable(False, False)
           #Tweak these colors later to seem more homey
           self.itemFrame = ctk.CTkFrame(self, fg_color="gray", border_color="black")
+          self.title("Your Shelf!")
 
           #Make an array of buttons that'll have the titles on them; the types will be saved for future reference
           buttonarr = []
-          for i in range(0, title.length):
+          for i in range(0, len(title)):
                #get the filename to get split with /n to make the titles vertical 
-               button = ctk.CTkButton(self, text=title[i], command=self.openfile(title[i],type[i]), bg_color=random.choice(bookcolor))
+               button = ctk.CTkButton(self, text=title[i], bg_color=random.choice(bookcolor), command=self.openfile((title[i] +'.'+ type[i])), )
                buttonarr.append(button)
      
           self.mainloop()
           
-     
+huh = bookShelf()

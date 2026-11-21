@@ -34,6 +34,7 @@ def popup(PopupText, PopUpTitle):
 #Long and short of the issue is basically just the fact that we're in the WRONG DIRECTORY!!!!!! title is also just not getting copied to it sooo
 for i in range(0, len(os.listdir("Data"))):
      info = data[i].split('.')
+     print(info)
 
      #Splitting the info into two arrays!
      for i in range(0, len(info)):
@@ -64,10 +65,11 @@ for i in range(0, len(os.listdir("Data"))):
 #What I need to do here is just set up a ctk window, make a stored array of the books (Persistent storage), and have them return the info
 class bookShelf (ctk.CTk):
 
-     def openfile(filename:str, filetype:str):
+     def openfiles(filename:str, filetype:str):
           #TODO: make the data returned from the instance get stored into a file, and then use the data to open the text viewer. 
           #ADD THE REST OF THE PATH STUFF!!!! IT WON'T KNOW OTHERWISE!!!
-          path =("Data")
+          path = ("Data/"+str(filetype))
+          print(path)
           SelectedFile = Path(path)
           toDisplay = ""
           if filetype == "txt":
@@ -79,17 +81,17 @@ class bookShelf (ctk.CTk):
           else:
                toDisplay = PDF_reader.getdata(SelectedFile)
 
-
-
-     def digireader(title, text):
+          print(toDisplay)
           readerframe = ctk.CTk()
-          readerframe.title(title)
-          readerframe.geometry(1000,1000)
+          readerframe.title(filetype)
+          #readerframe.geometry(1000,1000)
           frame = ctk.CTkFrame(readerframe, 950, 950)
-          label = ctk.CTkLabel(frame,text=text)
+          frame.grid(row=1, column=1,padx=20,pady=10)
+          label = ctk.CTkLabel(frame,text=toDisplay)
+          label.grid(row=1,column=1,padx=20,pady=20)
           readerframe.mainloop()
 
-
+     #make a seperate function inside of the loop that'll get the current file name, and then call the openfiles function with the file name. (You can't pass parameters to a button's command sadly)  
      def __init__(self):
           super().__init__()
           #sets the size of the window! (Tweak this later!)
@@ -98,13 +100,17 @@ class bookShelf (ctk.CTk):
           #Tweak these colors later to seem more homey
           self.itemFrame = ctk.CTkFrame(self, fg_color="gray", border_color="black")
           self.title("Your Shelf!")
-
+          self.label = ctk.CTkLabel(self, text="Your Shelf!")
+          self.label.grid(row=1, column=0, padx=20, pady=20, sticky="ew")
           #Make an array of buttons that'll have the titles on them; the types will be saved for future reference
           buttonarr = []
           for i in range(0, len(title)):
                #get the filename to get split with /n to make the titles vertical 
-               button = ctk.CTkButton(self, text=title[i], bg_color=random.choice(bookcolor), command=self.openfile((title[i] +'.'+ type[i])), )
-               buttonarr.append(button)
+               paramerter:str = title[i] +"."+ type[i]
+               self.button = ctk.CTkButton(self, text=title[i], bg_color=random.choice(bookcolor), )#, type[i]) )
+               self.button.configure(command=self.openfiles(paramerter))
+               self.button.grid(row=1,column=i, padx=20,pady=20, sticky="ew")
+               buttonarr.append(self.button)
      
           self.mainloop()
           

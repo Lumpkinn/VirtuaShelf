@@ -81,7 +81,6 @@ class bookShelf (ctk.CTk):
           else:
                toDisplay = PDF_reader.getdata(SelectedFile)
 
-          print(toDisplay)
           readerframe = ctk.CTk()
           readerframe.title(filetype)
           #readerframe.geometry(1000,1000)
@@ -91,8 +90,10 @@ class bookShelf (ctk.CTk):
           label.grid(row=1,column=1,padx=20,pady=20)
           readerframe.mainloop()
 
-     #make a seperate function inside of the loop that'll get the current file name, and then call the openfiles function with the file name. (You can't pass parameters to a button's command sadly)  
+
      def __init__(self):
+          def open():
+               self.openfiles(paramerter)
           super().__init__()
           #sets the size of the window! (Tweak this later!)
           #self.configure.set_widget_scaling(5.0)
@@ -104,11 +105,12 @@ class bookShelf (ctk.CTk):
           self.label.grid(row=1, column=0, padx=20, pady=20, sticky="ew")
           #Make an array of buttons that'll have the titles on them; the types will be saved for future reference
           buttonarr = []
+          
           for i in range(0, len(title)):
                #get the filename to get split with /n to make the titles vertical 
                paramerter:str = title[i] +"."+ type[i]
                self.button = ctk.CTkButton(self, text=title[i], bg_color=random.choice(bookcolor), )#, type[i]) )
-               self.button.configure(command=self.openfiles(paramerter))
+               self.button.configure(command=open)
                self.button.grid(row=1,column=i, padx=20,pady=20, sticky="ew")
                buttonarr.append(self.button)
      

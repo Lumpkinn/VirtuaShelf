@@ -8,7 +8,8 @@ class txtReader():
      
      def fileOpen(self, path):
           
-          with open (path) as file:
+          with open (path, encoding='utf-8') as file:
+              print(path)
               info = file.read() 
           
           return info

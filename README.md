@@ -8,5 +8,17 @@
 <h3>Running</h3>
 <p>For now, to run the file, simply download the code, and open the dist folder to find the executable (Sorry for not having it set up with its own releases page, I can't currently access the github site.) Currently, there is only support for windows, but linux support is coming soon.</p>
 
-<h4>Attributions</h4>
+<h4>Additional information</h4>
+<p>This project was made in VSCode, and uses the following libraries:</p>
+
+<li>Pathlib</li>
+<li>playsound3</li>
+<li>customtkinter</li>
+<li>os</li>
+<li>random</li>
+<li>pypdf</li>
+<li>ebooklib</li>
+<li>io</li>
+
+<h5>Attributions</h5>
 <p>No AI was used for this project.</p>

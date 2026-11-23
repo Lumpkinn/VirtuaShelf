@@ -4,7 +4,7 @@ from pathlib import Path
 from playsound3 import playsound
 import customtkinter as ctk
 import os, random
-import TXTReader, PDFReader, HTMLReader, EPUBReader
+import TXTReader, PDFReader, EPUBReader
 
 # Colors for later use (Vet this!! light colors are making it hard to see text!!!)
 
@@ -23,7 +23,6 @@ SelectedFile = ""
 
 TXT_reader = TXTReader.txtReader() 
 PDF_reader = PDFReader.pdfread()
-HTML_reader = HTMLReader.htmlinfo()
 EPUB_reader = EPUBReader.reader()
 
 #Method to make popup windows.
@@ -52,13 +51,11 @@ for i in range(0, len(os.listdir("Data"))):
                     break
                case 'txt':
                     break
-               case 'html':
-                    break
                case 'epub':
                     break
                case _:
                     print("bad eval")
-                    popup("File type not supported!" , "The data folder contains an unsupported file type. The folder must only contain either html, epub, txt, or pdf files. If you continue to see this message after clearing out the folder of any unwanted files, check for hidden files, and if the issue persists, create an issue on the github page.")
+                    popup("File type not supported!" , "The data folder contains an unsupported file type. The folder must only contain epub, txt, or pdf files. If you continue to see this message after clearing out the folder of any unwanted files, check for hidden files, and if the issue persists, create an issue on the github page.")
                     quit()
           
 #What I need to do here is just set up a ctk window, make a stored array of the books (Persistent storage), and have them return the info
@@ -68,7 +65,6 @@ class bookShelf (ctk.CTk):
           #plays sfx
           sfx = 'Select.wav'
           playsound(sfx)
-          print("I'm being called!")
           #gets path, and opens file
           path = ("Data/"+str(filetype))
           
@@ -78,16 +74,12 @@ class bookShelf (ctk.CTk):
           
           if type == "txt":
                toDisplay = TXT_reader.fileOpen(SelectedFile)
-               print(toDisplay + "txt")
-          elif type == "html":
-               toDisplay = HTML_reader.text(SelectedFile)
-               print(toDisplay+"Html")
           elif type == "epub":
                print("Unfortunately, this currently doesn't work..")
                toDisplay = EPUB_reader.read(SelectedFile) 
-               print(toDisplay+"epub")
           else:
                toDisplay = PDF_reader.getdata(SelectedFile)
+
           readerframe = ctk.CTk()
           readerframe.title(filetype)
           readerframe.configure(corner_radius=8, border_width=2,fg_color="burlywood4")
@@ -115,9 +107,7 @@ class bookShelf (ctk.CTk):
           #Holds the types of each file, in parallel
           fileinfo = ""
           #Possible hint? = THE ISSUE IS THAT THE PARAMETER IS ONLY BEING ASSIGNED A VALUE EITHER ONCE, OR IS LANDINF ON THE LAST POSSIBLE VALUE!!! MAKE IT AN ARRAY TO STORE DATA, AND PASS THE UNIQUE SIGNATURE TO THE OPEN METHOD
-          print(title)
-          print(type)
-
+          
      #Possible idea: have one variable thats set as the parameter for open. The value for the variable is just the title of the button, which will end up being unique depending on the button
      #TODO: comfigure the file types outside of the loop
           #Loops through the number of files
@@ -131,31 +121,22 @@ class bookShelf (ctk.CTk):
                #adds button to array.
                buttonarr.append(self.button)
           
-               print("im actually going through the buttons")
                if self.button.cget("text").split('.')[1] == 'txt':
-                    print('txt')
                     fileinfo = title[i]+"."+type[i]
                     infotype = 'txt'
                     
                if self.button.cget("text").split('.')[1] == 'pdf':
-                    print(title[i]+"."+type[i]+"huh")
                     fileinfo = title[i]+"."+type[i]
                     infotype='pdf'
-                    
-               if self.button.cget("text").split('.')[1] == 'html':
-                    print('html')
-                    infotype='html'
-                    fileinfo = title[i]+"."+type[i]
-                    
+          
                if self.button.cget("text").split('.')[1] == 'epub':
-                    print('epub')
+
                     infotype = 'epub'
                     fileinfo = title[i]+"."+type[i]
                
                
                self.button.configure(command=lambda fileinfo=fileinfo, infotype=infotype: self.openfiles(fileinfo, infotype))
-                    
-          
+                              
           self.mainloop()
-          "Data/lorem-ipsum.epub"
+
 huh = bookShelf()
